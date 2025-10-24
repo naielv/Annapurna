@@ -1,0 +1,27 @@
+services:
+  # Annapurna Frontend & Backend Service
+  # This service includes both the Flask backend API and the frontend UI
+  annapurna:
+    build: .
+    container_name: annapurna-frontend
+    ports:
+      # Map port 8080 from container to host port 8080
+      # Access the application at http://localhost:8080
+      - "8080:8080"
+    volumes:
+      # Persist user data files
+      # Create these directories on your host or let Docker create them
+      - ./data/L1:/DATA/L1
+      # Persist license files
+      - ./data/License:/DATA/License
+    environment:
+      # Flask environment variables
+      - FLASK_ENV=production
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
