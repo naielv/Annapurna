@@ -25,8 +25,3 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-
-# Volumes for data persistence
-# These will be created in ./data/ directory relative to docker-compose.yml
-volumes:
-  data:
